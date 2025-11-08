@@ -12,21 +12,33 @@ public DogBreed parseDog(String url){
   try{
     Document doc = Jsoup.connect(url).get();
     DogBreed breed = new DogBreed();
-    Element namebreedName = doc.selectFirst("#block-ttt-mainpagecontent > div > div.breed-details > div.component-wrapper > div > div > div > div > div.hero-small--content-area-wrapper > div.hero-small--content-area.hero-small--breed.hero-small--breed__dog > div > h1");
-    if (name != 0){
-      String name = breedName.text()
-        breed.setName(name);
-        return breed;
-      
-    }else{
-      System.out.println("Не удалось найти название породы((");
-    }
     
+    Element nameDog = doc.selectFirst("#block-ttt-mainpagecontent > div > div.breed-details > div.component-wrapper > div > div > div > div > div.hero-small--content-area-wrapper > div.hero-small--content-area.hero-small--breed.hero-small--breed__dog > div > h1");
+    if (nameDog != null){
+      String name = nameDog.text();
+        breed.setName(name);
+    }else{
+      System.out.println("Не удалось найти название породы((");}
+
+  
+    Element descriptionDog = doc.selectFirst("#block-ttt-mainpagecontent > div > div.breed-details > div.component-wrapper > div > div > div > div > div.hero-small--content-area-wrapper > div.hero-small--content-area.hero-small--breed.hero-small--breed__dog > div > div.hero-small--content-area-intro > div > p");
+    if (descriptionDog != null){
+      String description = descriptionDog.text();
+        breed.setDescription(description);
+    }else{
+      System.out.println("Не удалось найти описание породы((");}
+
+
+    Element picture = doc.selectFirst("#block-ttt-mainpagecontent > div > div.breed-details > div.component-wrapper > div > div > div > div > div.hero-small--image > div > picture > img");
+    if (picture != null){
+      breed.setPicture(base_url + picture.attr("src"));
+    }else{
+      System.out.println("Не удалось найти картиночку породы((");}
+    return breed;
+
   }catch(IOException e){
     e.printStackTrace();
     return null;
+    }
   }
 }
-//4 шаг: далее пойдет создание метода парсдог. аргумент будет урл в формате строка пжпжп
- //5 : также трай кэч будем юзать еще чтобы все не сломалось к #####
-//ИСПРАВИТЬ ОШИБКИ ОТ ДС. САМАЯ ЛЕВАЯ ВКЛАДКА
