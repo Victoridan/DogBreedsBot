@@ -7,6 +7,7 @@ import models.ActivityLevel;
 import models.DogRole;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BreedService {
     private List<DogBreed> dogBreeds;
@@ -63,20 +64,12 @@ public class BreedService {
                 DogRole.GUARD, 3, false, 1, "Элегантная и умная порода, хороший сторож"
         ));
     }
-
-    // ДОБАВЛЯЕМ НЕДОСТАЮЩИЙ МЕТОД
-    public void findMatchingBreeds(UserProfile userProfile) {
-        List<DogBreed> matchingBreeds = new ArrayList<>();
-
-        for (DogBreed breed : dogBreeds) {
-            if (isBreedSuitable(breed, userProfile)) {
-                matchingBreeds.add(breed);
-            }
-        }
-        // Для консольной версии (если нужна)
-        displayResults(matchingBreeds);
+    public List<DogBreed> findMatchingBreeds(UserProfile userProfile) {
+        return dogBreeds.stream()
+                .filter(breed -> isBreedSuitable(breed, userProfile))
+                .collect(Collectors.toList());
     }
-
+    
     private boolean isBreedSuitable(DogBreed breed, UserProfile userProfile) {
         if (breed.getSize() != userProfile.getPreferredDogSize()) {
             return false;
@@ -85,10 +78,10 @@ public class BreedService {
         int userActivity = userProfile.getActivityPreference();
         int breedActivity = breed.getActivityLevel().getLevel();
 
-        if (userActivity == 1 && breedActivity < 3) {
+        if (userActivity == 1 && breedActivity == 3) {
             return false;
         }
-        if (userActivity == 2 && breedActivity > 3) {
+        if (userActivity == 3 && breedActivity == 1) {
             return false;
         }
 
@@ -127,40 +120,7 @@ public class BreedService {
         return true;
     }
 
-    // Метод для консольной версии
-    private void displayResults(List<DogBreed> matchingBreeds) {
-        if (matchingBreeds.isEmpty()) {
-            System.out.println("К сожалению, по вашим критериям не найдено подходящих пород.");
-            return;
-        }
-
-        System.out.println("Найдено " + matchingBreeds.size() + " подходящих пород:\n");
-
-        for (int i = 0; i < matchingBreeds.size(); i++) {
-            DogBreed breed = matchingBreeds.get(i);
-            System.out.println((i + 1) + ". " + breed.getName());
-            System.out.println("   Размер: " + breed.getSize().getRussianName());
-            System.out.println("   Активность: " + breed.getActivityLevel().getRussianName());
-            System.out.println("   Дрессировка: " + getTrainingDifficultyInRussian(breed.getTrainingDifficulty()));
-            System.out.println("   Уход: " + getGroomingNeedsInRussian(breed.getGroomingNeeds()));
-            System.out.println("   Описание: " + breed.getDescription());
-            System.out.println();
-        }
-    }
-
-    public String getMatchingBreedsText(UserProfile userProfile) {
-        List<DogBreed> matchingBreeds = new ArrayList<>();
-
-        for (DogBreed breed : dogBreeds) {
-            if (isBreedSuitable(breed, userProfile)) {
-                matchingBreeds.add(breed);
-            }
-        }
-
-        return formatResultsForTelegram(matchingBreeds);
-    }
-
-    private String formatResultsForTelegram(List<DogBreed> matchingBreeds) {
+    public String formatResultsForTelegram(List<DogBreed> matchingBreeds) {
         if (matchingBreeds.isEmpty()) {
             return MessageHelper.formatError("По вашим критериям не найдено подходящих пород.") +
                     "\n\n" + MessageHelper.formatInfo("Попробуйте изменить некоторые параметры поиска и пройти тест заново.");
