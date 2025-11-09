@@ -91,7 +91,7 @@ public class MessageHandler {
         message.setText(results);
 
         
-        message.setReplyMarkup(InlineKeyboardMaker.getBreedsKeyboard(matchingBreeds));
+        message.setReplyMarkup(InlineKeyboardMaker.breedsBoard(matchingBreeds));
         return message;
     }
 
