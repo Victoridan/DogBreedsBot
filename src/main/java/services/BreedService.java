@@ -1,5 +1,6 @@
 package services;
 
+import parser.DogBreed;
 import models.DogBreed;
 import models.UserProfile;
 import models.DogSize;
