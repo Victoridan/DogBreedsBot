@@ -79,7 +79,7 @@ public class InlineKeyboardMaker {
 
         for (DogBreed breed:breeds){
             List<InlineKeyboardButton> row = new ArrayList<>();
-           InlineKeyboardButton breedButton= new InlineKeyboardButton();
+            InlineKeyboardButton breedButton= new InlineKeyboardButton();
             breedButton.setText(breed.getName());
             breedButton.setCallbackData("breed_"+ breed.getName());
             row.add(breedButton);
