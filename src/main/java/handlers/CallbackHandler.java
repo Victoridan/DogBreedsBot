@@ -9,8 +9,6 @@ import services.BreedService;
 import parser.DogBreed;
 
 
-
-
 public class CallbackHandler {
     private final QuestionService questionService;
     private final UserSessionService sessionService;
@@ -73,7 +71,7 @@ public class CallbackHandler {
             message.setParseMode("Markdown");
             
             try {
-            DogBreed detailBreed = breedService.detailDog(name);
+                models.DogBreed detailBreed = breedService.detailDog(name);
             
                 if (detailBreed != null && detailBreed.getName() != null) {
                     String info = detInfo(detailBreed);
@@ -86,15 +84,15 @@ public class CallbackHandler {
             }
               return message;
     }
-    private String detInfo(DogBreed breed){
+    private String detInfo(models.DogBreed breed){
         StringBuilder sb = new StringBuilder();
-        sb.append("^^ *").append(breed.getName()).append("*\n\n"); 
+        sb.append("").append(breed.getName()).append("*\n\n"); 
 
         if (breed.getDescript() != null){
-            sb.append().append(breed.getDescript()).append("\n\n");
+            sb.append(breed.getDescript()).append("\n\n");
         }
-        if (breed.getPict())!=null){
-            sb.append("\n [Посмотреть фотки](").append(breed.getPict()).append(")");
+        if (breed.getPict()!=null){
+            sb.append("\n [Посмотреть фотки ^^ ](").append(breed.getPict()).append(")");
         }
         return sb.toString();}
 }
