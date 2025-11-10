@@ -7,6 +7,9 @@ import services.MessageHelper;
 import keyboards.ReplyKeyboardMaker;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import keyboards.InlineKeyboardMaker;
+import models.DogBreed;
+
 
 public class MessageHandler {
     private final BreedService breedService;
@@ -79,12 +82,16 @@ public class MessageHandler {
             return message;
         }
 
-        String results = breedService.getMatchingBreedsText(
-                sessionService.getOrCreateUserProfile(userId)
+        java.util.List<DogBreed> matchingBreeds = breedService.findMatchingBreeds(
+            sessionService.getOrCreateUserProfile(userId)
         );
 
+        
+        String results = breedService.formatResultsForTelegram(matchingBreeds);
         message.setText(results);
-        message.setReplyMarkup(ReplyKeyboardMaker.getMainMenuKeyboard());
+
+        
+        message.setReplyMarkup(InlineKeyboardMaker.breedsBoard(matchingBreeds));
         return message;
     }
 
