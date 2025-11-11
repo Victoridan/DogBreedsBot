@@ -1,6 +1,6 @@
 package services;
 
-import parser.DogParser;
+import parser.DogBreedParser;
 import models.DogBreed;
 import models.UserProfile;
 import models.DogSize;
@@ -15,12 +15,12 @@ import java.util.Map;
 public class BreedService {
     private List<DogBreed> dogBreeds;
     private Map<String, String> breedUrl;
-    private DogParser dogParser;
+    private DogBreedParser dogParser;
 
     public BreedService() {
         initializeBreeds();
         initializeBreedUrl();
-        this.dogParser = new DogParser();
+        this.dogParser = new DogBreedParser();
     }
 
     public DogBreed detailDog(String name){
@@ -114,10 +114,10 @@ public class BreedService {
         int userActivity = userProfile.getActivityPreference();
         int breedActivity = breed.getActivityLevel().getLevel();
 
-        if (userActivity == 1 && breedActivity < 3) {
+        if (userActivity == 1 && breedActivity == 3) {
             return false;
         }
-        if (userActivity == 2 && breedActivity > 3) {
+        if (userActivity == 3 && breedActivity == 1) {
             return false;
         }
 
