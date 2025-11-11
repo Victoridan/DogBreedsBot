@@ -114,10 +114,10 @@ public class BreedService {
         int userActivity = userProfile.getActivityPreference();
         int breedActivity = breed.getActivityLevel().getLevel();
 
-        if (userActivity == 1 && breedActivity == 3) {
+        if (userActivity == 1 && breedActivity < 3) {
             return false;
         }
-        if (userActivity == 3 && breedActivity == 1) {
+        if (userActivity == 2 && breedActivity > 3) {
             return false;
         }
 
