@@ -12,11 +12,13 @@ public class DogBreed {
     private boolean goodWithOtherAnimals;
     private int groomingNeeds;
     private String description;
+    private String picture;
+
 
     public DogBreed(String name, DogSize size, ActivityLevel activityLevel, boolean hypoallergenic,
                     boolean goodWithKids, boolean suitableForApartment, DogRole role,
                     int trainingDifficulty, boolean goodWithOtherAnimals,
-                    int groomingNeeds, String description) {
+                    int groomingNeeds, String description, String picture) {
         this.name = name;
         this.size = size;
         this.activityLevel = activityLevel;
@@ -28,6 +30,11 @@ public class DogBreed {
         this.goodWithOtherAnimals = goodWithOtherAnimals;
         this.groomingNeeds = groomingNeeds;
         this.description = description;
+        this.picture= picture;
+    }
+
+    public DogBreed() {
+
     }
 
     public String getName() { return name; }
@@ -40,5 +47,10 @@ public class DogBreed {
     public int getTrainingDifficulty() { return trainingDifficulty; }
     public boolean isGoodWithOtherAnimals() { return goodWithOtherAnimals; }
     public int getGroomingNeeds() { return groomingNeeds; }
-    public String getDescription() { return description; }
+    public String getDescript() { return description; }
+    public String getPict() { return picture; }
+
+    public void setName(String name) { this.name = name; }
+    public void setDescript(String description) { this.description = description; }
+    public void setPict(String picture) { this.picture= picture; }
 }
