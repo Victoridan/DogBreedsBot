@@ -83,14 +83,14 @@ public class MessageHandler {
         }
 
         java.util.List<DogBreed> matchingBreeds = breedService.findMatchingBreeds(
-            sessionService.getOrCreateUserProfile(userId)
+                sessionService.getOrCreateUserProfile(userId)
         );
 
-        
+
         String results = breedService.formatResultsForTelegram(matchingBreeds);
         message.setText(results);
 
-        
+
         message.setReplyMarkup(InlineKeyboardMaker.breedsBoard(matchingBreeds));
         return message;
     }

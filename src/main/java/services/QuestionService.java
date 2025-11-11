@@ -16,8 +16,6 @@ public class QuestionService {
         this.sessionService = sessionService;
     }
 
-    // УДАЛЯЕМ старый метод startQuestionnaire()
-    // public void startQuestionnaire() { ... }
 
     public SendMessage processAnswer(Long userId, String messageText) {
         UserProfile userProfile = sessionService.getOrCreateUserProfile(userId);

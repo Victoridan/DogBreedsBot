@@ -9,6 +9,8 @@ import services.BreedService;
 import parser.DogBreed;
 
 
+
+
 public class CallbackHandler {
     private final QuestionService questionService;
     private final UserSessionService sessionService;
@@ -66,33 +68,33 @@ public class CallbackHandler {
         }
     }
     private SendMessage detailDog(Long userId, String name) {
-            SendMessage message = new SendMessage();
-            message.setChatId(userId.toString());
-            message.setParseMode("Markdown");
-            
-            try {
-                models.DogBreed detailBreed = breedService.detailDog(name);
-            
-                if (detailBreed != null && detailBreed.getName() != null) {
-                    String info = detInfo(detailBreed);
-                    message.setText(info);
-                }else{
-                    message.setText("Не удалось загрузить информацию о породе " + name + ":(");
-                }
-            }catch(Exception e){
-                message.setText("Произошла ошибка при загрузке информации о породе");
+        SendMessage message = new SendMessage();
+        message.setChatId(userId.toString());
+        message.setParseMode("Markdown");
+
+        try {
+            models.DogBreed detailBreed = breedService.detailDog(name);
+
+            if (detailBreed != null && detailBreed.getName() != null) {
+                String info = detInfo(detailBreed);
+                message.setText(info);
+            }else{
+                message.setText("Не удалось загрузить информацию о породе " + name + ":(");
             }
-              return message;
+        }catch(Exception e){
+            message.setText("Произошла ошибка при загрузке информации о породе");
+        }
+        return message;
     }
     private String detInfo(models.DogBreed breed){
         StringBuilder sb = new StringBuilder();
-        sb.append("").append(breed.getName()).append("*\n\n"); 
+        sb.append("^^ *").append(breed.getName()).append("*\n\n");
 
         if (breed.getDescript() != null){
             sb.append(breed.getDescript()).append("\n\n");
         }
         if (breed.getPict()!=null){
-            sb.append("\n [Посмотреть фотки ^^ ](").append(breed.getPict()).append(")");
+            sb.append("\n [Посмотреть фотки](").append(breed.getPict()).append(")");
         }
         return sb.toString();}
 }

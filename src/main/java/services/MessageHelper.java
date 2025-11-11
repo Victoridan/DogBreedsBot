@@ -10,13 +10,6 @@ public class MessageHelper {
         return "🐕 *" + title + "*\n" + separator.toString() + "\n";
     }
 
-    // ДОБАВЛЯЕМ НЕДОСТАЮЩИЙ МЕТОД
-    public static void printTitle(String title) {
-        System.out.println("\n" + "=".repeat(30));
-        System.out.println(title);
-        System.out.println("=".repeat(30));
-    }
-
     public static String formatSubtitle(String subtitle) {
         return "\n📋 *" + subtitle + "*\n";
     }
