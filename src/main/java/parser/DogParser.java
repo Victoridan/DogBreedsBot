@@ -6,7 +6,7 @@ import org.jsoup.nodes.Document;
 import java.io.IOException;
 import models.DogBreed;
 
-public class DogBreedParser{
+public class DogParser {
     private static final String base_url = "https://www.purina.ru";
 
     public DogBreed parseDog(String url){
