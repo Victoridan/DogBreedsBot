@@ -1,6 +1,6 @@
 package services;
 
-import parser.DogParser;
+import parser.DogBreed;
 import models.DogBreed;
 import models.UserProfile;
 import models.DogSize;
@@ -15,23 +15,23 @@ import java.util.Map;
 public class BreedService {
     private List<DogBreed> dogBreeds;
     private Map<String, String> breedUrl;
-    private DogParser dogParser;
-
+    private DogBreedParser dogBreedParser;
+    
     public BreedService() {
         initializeBreeds();
         initializeBreedUrl();
-        this.dogParser = new DogParser();
+        this.dogBreedParser = new DogBreedParser();
     }
 
     public DogBreed detailDog(String name){
         String url = fullUrl(name);
         if (url != null){
-            return dogParser.parseDog(url);}
+            return dogBreedParser.parseDog(url);}
         return null;}
-
+    
     private void initializeBreedUrl(){
         breedUrl = new HashMap<>();
-
+        
         breedUrl.put("Йоркширский терьер", "yorkshirskiy-terer");
         breedUrl.put("Чихуахуа", "gladkosherstnyy-chikhuakhua");
         breedUrl.put("Такса", "taksa-gladkosherstnaya");
@@ -41,10 +41,10 @@ public class BreedService {
         breedUrl.put("Немецкая овчарка", "german-shepherd");
         breedUrl.put("Золотистый ретривер", "zolotistyy-retriver");
         breedUrl.put("Доберман", "dobermann");}
-
+    
     public String getBreedUrl(String name){
         return breedUrl.get(name);}
-
+    
     public String fullUrl(String name){
         String partUrl = breedUrl.get(name);
         if (partUrl != null){
@@ -57,47 +57,47 @@ public class BreedService {
 
         dogBreeds.add(new DogBreed(
                 "Йоркширский терьер", DogSize.SMALL, ActivityLevel.MEDIUM, true, true, true,
-                DogRole.COMPANION, 3, true, 3, "Маленькая декоративная порода, подходит для квартиры", null
+                DogRole.COMPANION, 3, true, 3, "Маленькая декоративная порода, подходит для квартиры"
         ));
 
         dogBreeds.add(new DogBreed(
                 "Чихуахуа", DogSize.SMALL, ActivityLevel.LOW, false, false, true,
-                DogRole.COMPANION, 2, false, 1, "Самая маленькая порода собак, требует бережного отношения" , null
+                DogRole.COMPANION, 2, false, 1, "Самая маленькая порода собак, требует бережного отношения"
         ));
 
         dogBreeds.add(new DogBreed(
                 "Такса", DogSize.SMALL, ActivityLevel.MEDIUM, false, true, true,
-                DogRole.COMPANION, 3, true, 2, "Охотничья порода, активная и умная", null
+                DogRole.COMPANION, 3, true, 2, "Охотничья порода, активная и умная"
         ));
 
         dogBreeds.add(new DogBreed(
                 "Бульдог", DogSize.MEDIUM, ActivityLevel.LOW, false, true, true,
-                DogRole.COMPANION, 3, true, 2, "Спокойная и дружелюбная порода, хороший компаньон", null
+                DogRole.COMPANION, 3, true, 2, "Спокойная и дружелюбная порода, хороший компаньон"
         ));
 
         dogBreeds.add(new DogBreed(
                 "Бигль", DogSize.MEDIUM, ActivityLevel.HIGH, false, true, false,
-                DogRole.COMPANION, 4, true, 2, "Активная охотничья порода, требует много движения", null
+                DogRole.COMPANION, 4, true, 2, "Активная охотничья порода, требует много движения"
         ));
 
         dogBreeds.add(new DogBreed(
                 "Лабрадор-ретривер", DogSize.LARGE, ActivityLevel.HIGH, false, true, false,
-                DogRole.COMPANION, 2, true, 3, "Популярная семейная порода, очень дружелюбная и умная", null
+                DogRole.COMPANION, 2, true, 3, "Популярная семейная порода, очень дружелюбная и умная"
         ));
 
         dogBreeds.add(new DogBreed(
                 "Немецкая овчарка", DogSize.LARGE, ActivityLevel.HIGH, false, true, false,
-                DogRole.GUARD, 2, true, 3, "Универсальная служебная порода, умная и преданная", null
+                DogRole.GUARD, 2, true, 3, "Универсальная служебная порода, умная и преданная"
         ));
 
         dogBreeds.add(new DogBreed(
                 "Золотистый ретривер", DogSize.LARGE, ActivityLevel.HIGH, false, true, false,
-                DogRole.COMPANION, 2, true, 3, "Очень дружелюбная и терпеливая порода, идеальна для семьи", null
+                DogRole.COMPANION, 2, true, 3, "Очень дружелюбная и терпеливая порода, идеальна для семьи"
         ));
 
         dogBreeds.add(new DogBreed(
                 "Доберман", DogSize.LARGE, ActivityLevel.HIGH, false, true, true,
-                DogRole.GUARD, 3, false, 1, "Элегантная и умная порода, хороший сторож", null
+                DogRole.GUARD, 3, false, 1, "Элегантная и умная порода, хороший сторож"
         ));
     }
     public List<DogBreed> findMatchingBreeds(UserProfile userProfile) {
@@ -105,7 +105,7 @@ public class BreedService {
                 .filter(breed -> isBreedSuitable(breed, userProfile))
                 .collect(Collectors.toList());
     }
-
+    
     private boolean isBreedSuitable(DogBreed breed, UserProfile userProfile) {
         if (breed.getSize() != userProfile.getPreferredDogSize()) {
             return false;
@@ -158,8 +158,8 @@ public class BreedService {
 
     public String formatResultsForTelegram(List<DogBreed> matchingBreeds) {
         if (matchingBreeds.isEmpty()) {
-            return MessageHelper.formatError("По вашим критериям не найдено подходящих пород. Заведите себе хомячка \uD83D\uDE08") + "\n\n" +
-                    MessageHelper.formatInfo("Попробуйте изменить некоторые параметры поиска и пройти тест заново \uD83D\uDE42"); //эта страшная конструкция в конце - смайлик саркастичный...
+            return MessageHelper.formatError("По вашим критериям не найдено подходящих пород.") +
+                    "\n\n" + MessageHelper.formatInfo("Попробуйте изменить некоторые параметры поиска и пройти тест заново.");
         }
 
         StringBuilder result = new StringBuilder();
@@ -184,16 +184,16 @@ public class BreedService {
                     breed.getActivityLevel().getRussianName(),
                     getTrainingDifficultyInRussian(breed.getTrainingDifficulty()),
                     getGroomingNeedsInRussian(breed.getGroomingNeeds()),
-                    MessageHelper.escapeMarkdown(breed.getDescript())
+                    MessageHelper.escapeMarkdown(breed.getDescription())
             );
 
             result.append(breedInfo);
         }
-        result.append("\n *Нажмите на кнопку ниже для получения подробной информации!*");
-
+        result.append("\n🎯 *Нажмите на кнопку ниже для получения подробной информации*");
+        
         return result.toString();
     }
-
+    
 
     private String getTrainingDifficultyInRussian(int difficulty) {
         switch (difficulty) {
