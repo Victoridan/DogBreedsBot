@@ -21,10 +21,10 @@ public class CallbackHandler {
         this.sessionService = sessionService;
         this.breedService = breedService;
     }
-
+    // Обрабатывает нажатия на inline-кнопки
     public SendMessage handleCallback(CallbackQuery callbackQuery) {
-        Long userId = callbackQuery.getFrom().getId();
-        String callbackData = callbackQuery.getData();
+        Long userId = callbackQuery.getFrom().getId();// Получаем ID пользователя который нажал кнопку
+        String callbackData = callbackQuery.getData();// Получаем данные кнопки которую нажали
 
         if (callbackData.startsWith("breed_")){
             String name = callbackData.substring(6);
@@ -50,7 +50,7 @@ public class CallbackHandler {
                 message.setText("🐕 *Бот для подбора пород собак*\n\n" +
                         "Просто начните тест с помощью /start и отвечайте на вопросы!\n\n" +
                         "Бот задаст вам 9 вопросов о ваших предпочтениях и условиях содержания собаки.");
-                message.setReplyMarkup(ReplyKeyboardMaker.getMainMenuKeyboard());
+                message.setReplyMarkup(ReplyKeyboardMaker.getMainMenuKeyboard());// прикрепляет клавиатуру к сообщению_создаёт и возвращает объект клавиатур
                 return message;
 
             case "command_results":
