@@ -13,23 +13,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BreedService {
-    private List<DogBreed> dogBreeds;
-    private Map<String, String> breedUrl;
-    private DogBreedParser dogParser;
+    private List<DogBreed> dogBreeds; //список всех пород
+    private Map<String, String> breedUrl;// словарь. ключ-значене
+    private DogBreedParser dogParser; //парсер
 
     public BreedService() {
-        initializeBreeds();
-        initializeBreedUrl();
+        initializeBreeds(); //загружает породы в память
+        initializeBreedUrl(); //заполняет карту урл
         this.dogParser = new DogBreedParser();
     }
 
     public DogBreed detailDog(String name){
-        String url = fullUrl(name);
-        if (url != null){
-            return dogParser.parseDog(url);}
+        String url = fullUrl(name); //вызываем метод. получаем полный урл с помощью названия породы
+        if (url != null){ //если найден
+            return dogParser.parseDog(url);}// - парсим
         return null;}
 
-    private void initializeBreedUrl(){
+    private void initializeBreedUrl(){ //словарь урл
         breedUrl = new HashMap<>();
 
         breedUrl.put("Йоркширский терьер", "yorkshirskiy-terer");
@@ -43,16 +43,16 @@ public class BreedService {
         breedUrl.put("Доберман", "dobermann");}
 
     public String getBreedUrl(String name){
-        return breedUrl.get(name);}
+        return breedUrl.get(name);}// возвращаем значение из мап
 
     public String fullUrl(String name){
-        String partUrl = breedUrl.get(name);
+        String partUrl = breedUrl.get(name); // Находим часть URL по названию
         if (partUrl != null){
-            return "https://www.purina.ru/find-a-pet/dog-breeds/" + partUrl;}
+            return "https://www.purina.ru/find-a-pet/dog-breeds/" + partUrl;} //склеиваем в полный
         return null;}
 
 
-    private void initializeBreeds() {
+    private void initializeBreeds() { //заполняем внутреннюю бд породами
         dogBreeds = new ArrayList<>();
 
         dogBreeds.add(new DogBreed(
@@ -101,9 +101,9 @@ public class BreedService {
         ));
     }
     public List<DogBreed> findMatchingBreeds(UserProfile userProfile) {
-        return dogBreeds.stream()
-                .filter(breed -> isBreedSuitable(breed, userProfile))
-                .collect(Collectors.toList());
+        return dogBreeds.stream() //Преобразует список dogBreeds в поток данных и Позволяет применять функциональные операции (фильтрация, преобразование)
+                .filter(breed -> isBreedSuitable(breed, userProfile))//.filter() - оставляет только элементы, удовлетворяющие условию. далее с помощью лямбды проверяет подходит ли собака юзеру
+                .collect(Collectors.toList()); //Собирает отфильтрованные породы обратно в List<DogBreed>, возвращая готовый список
     }
 
     private boolean isBreedSuitable(DogBreed breed, UserProfile userProfile) {
@@ -114,10 +114,10 @@ public class BreedService {
         int userActivity = userProfile.getActivityPreference();
         int breedActivity = breed.getActivityLevel().getLevel();
 
-        if (userActivity == 1 && breedActivity < 3) {
+        if (userActivity ==1 && breedActivity <= 2) {
             return false;
         }
-        if (userActivity == 2 && breedActivity > 3) {
+        if (userActivity == 2 && breedActivity >= 4) {
             return false;
         }
 
@@ -147,9 +147,6 @@ public class BreedService {
 
         int userGrooming = userProfile.getGroomingFrequency();
         if (userGrooming == 1 && breed.getGroomingNeeds() > 2) {
-            return false;
-        }
-        if (userGrooming == 3 && breed.getGroomingNeeds() < 3) {
             return false;
         }
 

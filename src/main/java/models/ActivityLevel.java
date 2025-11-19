@@ -1,34 +1,41 @@
 package models;
 
 public enum ActivityLevel {
-    VERY_LOW(1, "Очень низкая"),
-    LOW(2, "Низкая"),
-    MEDIUM(3, "Средняя"),
-    HIGH(4, "Высокая"),
-    VERY_HIGH(5, "Очень высокая");
-
-    private final int level;
-    private final String russianName;
-
-    ActivityLevel(int level, String russianName) {
-        this.level = level;
-        this.russianName = russianName;
-    }
+    VERY_LOW,
+    LOW,
+    MEDIUM,
+    HIGH,
+    VERY_HIGH;
 
     public int getLevel() {
-        return level;
+        switch (this) {
+            case VERY_LOW: return 1;
+            case LOW: return 2;
+            case MEDIUM: return 3;
+            case HIGH: return 4;
+            case VERY_HIGH: return 5;
+            default: return 0;
+        }
     }
-
     public String getRussianName() {
-        return russianName;
+        switch (this) {
+            case VERY_LOW: return "Очень низкая";
+            case LOW: return "Низкая";
+            case MEDIUM: return "Средняя";
+            case HIGH: return "Высокая";
+            case VERY_HIGH: return "Очень высокая";
+            default: return "Неизвестно";
+        }
     }
 
     public static ActivityLevel fromLevel(int level) {
-        for (ActivityLevel activity : values()) {
-            if (activity.level == level) {
-                return activity;
-            }
+        switch (level) {
+            case 1: return VERY_LOW;
+            case 2: return LOW;
+            case 3: return MEDIUM;
+            case 4: return HIGH;
+            case 5: return VERY_HIGH;
+            default: throw new IllegalArgumentException("Неизвестный уровень активности: " + level);
         }
-        throw new IllegalArgumentException("Неизвестный уровень активности: " + level);
     }
 }
