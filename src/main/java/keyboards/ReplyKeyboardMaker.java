@@ -1,19 +1,19 @@
 package keyboards;
 
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;//класс для создания обычной клавиатуры (появляется вместо клавиатуры ввода)
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;//класс для создания ряда кнопок (одна строка в клавиатуре)
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;// класс для скрытия клавиатуры
 import java.util.ArrayList;
 import java.util.List;
-
+// Создает главное меню с командами
 public class ReplyKeyboardMaker {
 
-    public static ReplyKeyboardMarkup getMainMenuKeyboard() {
+    public static ReplyKeyboardMarkup getMainMenuKeyboard() {//создает обьект клавиатура
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
-        keyboardMarkup.setSelective(true);
-        keyboardMarkup.setResizeKeyboard(true);
-        keyboardMarkup.setOneTimeKeyboard(false);
-
+        keyboardMarkup.setSelective(true); // Показывать не всем в группе
+        keyboardMarkup.setResizeKeyboard(true);// Автоматически подстраивать размер
+        keyboardMarkup.setOneTimeKeyboard(false);//не скрывать после нажантия
+//список рядов кнопок
         List<KeyboardRow> keyboard = new ArrayList<>();
 
         KeyboardRow row1 = new KeyboardRow();
@@ -23,10 +23,10 @@ public class ReplyKeyboardMaker {
         KeyboardRow row2 = new KeyboardRow();
         row2.add("/result");
         row2.add("/stop");
-
+//добавляем ряды в клаву
         keyboard.add(row1);
         keyboard.add(row2);
-
+// Устанавливаем клавиатуру
         keyboardMarkup.setKeyboard(keyboard);
         return keyboardMarkup;
     }
@@ -35,7 +35,7 @@ public class ReplyKeyboardMaker {
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
         keyboardMarkup.setSelective(true);
         keyboardMarkup.setResizeKeyboard(true);
-        keyboardMarkup.setOneTimeKeyboard(true);
+        keyboardMarkup.setOneTimeKeyboard(true);// Скрыть после нажатия
 
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow row = new KeyboardRow();
@@ -128,7 +128,7 @@ public class ReplyKeyboardMaker {
         keyboardMarkup.setKeyboard(keyboard);
         return keyboardMarkup;
     }
-
+    // Убрать клавиатуру (вернуть обычную клавиатуру)
     public static ReplyKeyboardRemove removeKeyboard() {
         return new ReplyKeyboardRemove(true);
     }

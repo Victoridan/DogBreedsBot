@@ -1,16 +1,16 @@
 package keyboards;
 
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;// класс для создания inline-кнопок
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;//для 1 кнопки
 import java.util.ArrayList;
 import java.util.List;
 import models.DogBreed;
 
 public class InlineKeyboardMaker {
-
+    // Создает inline-кнопки
     public static InlineKeyboardMarkup getStartTestKeyboard() {
-        InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
-
+        InlineKeyboardMarkup markup = new InlineKeyboardMarkup();//разметка для них
+// Создаем список рядов кнопок
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
 
         List<InlineKeyboardButton> row = new ArrayList<>();
@@ -19,8 +19,8 @@ public class InlineKeyboardMaker {
         startButton.setCallbackData("start_test");
         row.add(startButton);
 
-        keyboard.add(row);
-        markup.setKeyboard(keyboard);
+        keyboard.add(row);//обавляем ряд в клавиатуру
+        markup.setKeyboard(keyboard);// Устанавливаем клавиатуру
         return markup;
     }
 

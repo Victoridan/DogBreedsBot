@@ -24,15 +24,15 @@ public class MessageHandler {
     }
 
     public SendMessage handleMessage(Message message) {
-        Long userId = message.getFrom().getId();
-        String messageText = message.getText();
+        Long userId = message.getFrom().getId();//Возвращает объект типа User — информацию об отправителе сообщ _ возвращает уникальный ID пользователя как Long
+        String messageText = message.getText();//Получаем ID и текст сообщения
 
         if (messageText.startsWith("/")) {
             return handleCommand(userId, messageText);
         }
 
         if (sessionService.isTestActive(userId)) {
-            return questionService.processAnswer(userId, messageText);
+            return questionService.processAnswer(userId, messageText);//Если тест идёт — обрабатываем как ответ
         }
 
         return createHelpMessage(userId);
@@ -58,9 +58,9 @@ public class MessageHandler {
 
             default:
                 SendMessage message = new SendMessage();
-                message.setChatId(userId.toString());
+                message.setChatId(userId.toString());//метод, который задаёт ID чата, куда отправить сообщение
                 message.setText("Неизвестная команда. Используйте /help для списка команд.");
-                message.setReplyMarkup(ReplyKeyboardMaker.getMainMenuKeyboard());
+                message.setReplyMarkup(ReplyKeyboardMaker.getMainMenuKeyboard());// прикрепляет клавиатуру к сообщению_создаёт и возвращает объект клавиатур
                 return message;
         }
     }
@@ -68,10 +68,11 @@ public class MessageHandler {
     private SendMessage showResults(Long userId) {
         SendMessage message = new SendMessage();
         message.setChatId(userId.toString());
-        message.setParseMode("Markdown");
+        message.setParseMode("Markdown");//т форматирование через Markdown
 
         if (!sessionService.getOrCreateUserProfile(userId).isComplete()) {
-            String errorText = String.format(
+            String errorText = String.format(// формирует строку из частей.
+                    //%s%s — два заполнителя для строк
                     "%s%s",
                     MessageHelper.formatError("Вы еще не прошли тест!"),
                     "\n\nИспользуйте /start чтобы начать тест по подбору породы собаки."
